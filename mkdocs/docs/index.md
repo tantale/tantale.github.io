@@ -4,5 +4,7 @@
 
 The following articles are related to the [Deprecated library](https://github.com/tantale/deprecated) project.
 
+- [Deprecated Parameters](articles/deprecated_args.md)
+
 ## Other articles
 

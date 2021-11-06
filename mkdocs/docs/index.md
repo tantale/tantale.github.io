@@ -6,8 +6,8 @@ The following articles are related to the [Deprecated library](https://github.co
 
 **Function parameters deprecation**
 
-- [Requirements](articles/requirements.md)
-- [Deprecated Parameters Decorator](articles/deprecated_params.md)
+- [Requirements](en/articles/requirements.md)
+- [Deprecated Parameters Decorator](en/articles/deprecated_params.md)
 
 ## Other articles
 

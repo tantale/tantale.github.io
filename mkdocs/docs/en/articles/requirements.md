@@ -1,3 +1,6 @@
+Requirements
+============
+
 ---
 
 - title: Deprecate a function parameter – Requirements
@@ -6,9 +9,6 @@
 - date: 2019-03-01
 
 ---
-
-Requirements
-============
 
 Abstract
 --------

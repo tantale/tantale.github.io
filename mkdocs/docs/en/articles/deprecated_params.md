@@ -1,3 +1,6 @@
+Deprecated Parameters Decorator
+===============================
+
 ---
 
 - title: Deprecate a function parameter – The Deprecated Parameters Decorator
@@ -6,9 +9,6 @@
 - date: 2021-11-03
 
 ---
-
-Deprecated Parameters Decorator
-===============================
 
 Abstract
 --------

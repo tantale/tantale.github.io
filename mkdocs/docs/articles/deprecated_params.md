@@ -188,15 +188,15 @@ deprecated:
 ```python
 @deprecated_params(
     {
-        "x": "Use 'width' instead",
-        "y": "Use 'height' instead",
+        "x": "use `width` instead or `x`",
+        "y": "use `height` instead or `y`",
     }
 )
 def area(*args, **kwargs):
     ...
 ```
 
-> **note**
+> **Note:**
 >
 > Of course, a more elaborate version will have to provide the API
 > version number from which the parameters are deprecated. It will also
@@ -328,13 +328,6 @@ class DeprecatedParams(object):
 deprecated_params = DeprecatedParams
 ```
 
-> **warning**
->
-> In the examples below, we have changed the warnings configuration to
-> raise an exception when a deprecation message is emitted. This makes
-> it easier to see the messages when this code is tested with `doctest`.
-> Usually, warning messages appear on the console in `stderr`.
-
 Usage examples:
 
 ```python
@@ -343,22 +336,26 @@ def pow2(x, y, z=None):
     return x ** y
 ```
 
-When we call the function `pow2` in different ways, we have:
+Using a Python 3.8 console, when we call the function `pow2` in different ways, we have:
 
 ```python-repl
 >>> pow2(2, 3)
 8
 
 >>> pow2(2, 3, 3.14)
-Traceback (most recent call last):
-  ...
-DeprecationWarning: 'z' parameter is deprecated
+<input>:1: DeprecationWarning: 'z' parameter is deprecated
+8
 
 >>> pow2(2, 3, z=3.14)
 Traceback (most recent call last):
   ...
-DeprecationWarning: 'z' parameter is deprecated
+TypeError: 'z' parameter is positional only, but was passed as a keyword
 ```
+
+> **Note:**
+>
+> Of course, if we use an older version of Python, we get a depreciation
+> warning instead of a `TypeError`.
 
 Here is another example with the `compare` function:
 
@@ -373,31 +370,41 @@ def compare(a, b, *, key=None):
 When we call the function `compare`, we have:
 
 ```python-repl
+>>> import warnings
+>>> warnings.simplefilter("always")
+
 >>> compare("a", "B")
 False
 
 >>> compare("a", "B", key=str.upper)
-Traceback (most recent call last):
-  ...
-DeprecationWarning: Parameter 'key' should be avoided for security reasons
+<input>:1: DeprecationWarning: Parameter 'key' should be avoided for security reasons
+True
 
 >>> compare([2, 1], [1, 2], key=lambda i: i.pop())
-Traceback (most recent call last):
-  ...
-DeprecationWarning: Parameter 'key' should be avoided for security reasons
+<input>:1: DeprecationWarning: Parameter 'key' should be avoided for security reasons
+True
 ```
+
+> **Note:**
+>
+> By default, the warning messages are displayed only once, on the first call corresponding
+> to each location (module + line number) where the warning is issued.
+> In this example, we use `warnings.simplefilter("always")` to emit a warning message on every call.
+> Without this configuration, we would have had only one warning message.
+> 
+> See also [The Warnings Filter](https://docs.python.org/3/library/warnings.html#the-warnings-filter)
+> in the Python documentation.
 
 Again, we can use the decorator with the `area` function:
 
 ```python
 @deprecated_params(
     {
-        "x": "Use 'width' instead",
-        "y": "Use 'height' instead",
-    }
+        "x": "use `width` instead or `x`",
+        "y": "use `height` instead or `y`",
+    },
 )
 def area(*args, **kwargs):
-
     def _area_impl(width, height):
         return width * height
 
@@ -417,6 +424,9 @@ def area(*args, **kwargs):
 When we call the function `area`, we have:
 
 ```python-repl
+>>> import warnings
+>>> warnings.simplefilter("always")
+
 >>> area(4, 6)
 24
 
@@ -424,7 +434,19 @@ When we call the function `area`, we have:
 18
 
 >>> area(x=2, y=7)
+<input>:1: DeprecationWarning: use `width` instead or `x`
+<input>:1: DeprecationWarning: use `height` instead or `y`
+14
+
+>>> area(x=2, height=7)
+<input>:1: DeprecationWarning: use `width` instead or `x`
 Traceback (most recent call last):
   ...
-DeprecationWarning: Use 'width' instead
+TypeError: invalid arguments
 ```
+
+> **Note:**
+> 
+> In the last call, the deprecation warning is printed and then a`TypeError` is raised:
+> this is an implementation choice to raise an exception when the arguments are invalid.
+> This way, the user of the function has enough information to deal with the issue.

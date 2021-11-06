@@ -1,0 +1,980 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://tantale.github.io/en/articles/deprecated_params/">
+      
+      <link rel="icon" href="../../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Deprecated Parameters Decorator - Tantale’s Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deprecated-parameters-decorator" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tantale’s Blog" class="md-header__button md-logo" aria-label="Tantale’s Blog" data-md-component="logo">
+      
+  <img src="../../../images/Tantale-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tantale’s Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deprecated Parameters Decorator
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tantale’s Blog" class="md-nav__button md-logo" aria-label="Tantale’s Blog" data-md-component="logo">
+      
+  <img src="../../../images/Tantale-logo.png" alt="logo">
+
+    </a>
+    Tantale’s Blog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Function parameters deprecation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Function parameters deprecation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Function parameters deprecation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Deprecated Parameters Decorator
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Deprecated Parameters Decorator
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    Abstract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters-or-arguments" class="md-nav__link">
+    Parameters or Arguments?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-examples" class="md-nav__link">
+    Some examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Some examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1" class="md-nav__link">
+    Example 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2" class="md-nav__link">
+    Example 2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3" class="md-nav__link">
+    Example 3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-deprecated-parameters-decorator" class="md-nav__link">
+    The "deprecated parameters" decorator
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binding-positional-and-keyword-parameters" class="md-nav__link">
+    Binding positional and keyword parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-simple-decorator-factory" class="md-nav__link">
+    A simple decorator factory
+  </a>
+  
+    <nav class="md-nav" aria-label="A simple decorator factory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-1_1" class="md-nav__link">
+    Example 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2_1" class="md-nav__link">
+    Example 2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3_1" class="md-nav__link">
+    Example 3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    Abstract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters-or-arguments" class="md-nav__link">
+    Parameters or Arguments?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-examples" class="md-nav__link">
+    Some examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Some examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1" class="md-nav__link">
+    Example 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2" class="md-nav__link">
+    Example 2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3" class="md-nav__link">
+    Example 3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-deprecated-parameters-decorator" class="md-nav__link">
+    The "deprecated parameters" decorator
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binding-positional-and-keyword-parameters" class="md-nav__link">
+    Binding positional and keyword parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-simple-decorator-factory" class="md-nav__link">
+    A simple decorator factory
+  </a>
+  
+    <nav class="md-nav" aria-label="A simple decorator factory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-1_1" class="md-nav__link">
+    Example 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2_1" class="md-nav__link">
+    Example 2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3_1" class="md-nav__link">
+    Example 3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="deprecated-parameters-decorator">Deprecated Parameters Decorator</h1>
+<hr />
+<ul>
+<li>title: Deprecate a function parameter – The Deprecated Parameters Decorator</li>
+<li>summary: How to deprecate function parameters using a decorator factory?</li>
+<li>author: Laurent LAPORTE</li>
+<li>date: 2021-11-03</li>
+</ul>
+<hr />
+<h2 id="abstract">Abstract</h2>
+<p>The purpose of this article is to present the case where we want to
+deprecate one (or more) function parameters. This case is slightly
+different from the case where we wish to deprecate a function because it
+is necessary to examine the parameters of the function, thus necessary
+to make an introspection.</p>
+<ul>
+<li>First, we will define the terms <em>parameter</em> and <em>argument</em>.</li>
+<li>Then, we will give some simple examples of functions for which we
+    want to deprecate one (or more) parameter(s).</li>
+<li>We can see how to decorate these functions with a "deprecated
+    parameters" decorator.</li>
+<li>We will also see how to introspect a function in order to list the
+    positional and keyword parameters, and how parameters are bind to
+    arguments.</li>
+<li>This analysis will allow us to design a simple decorator to
+    deprecate parameters.</li>
+</ul>
+<h2 id="parameters-or-arguments">Parameters or Arguments?</h2>
+<p>The terms <em>parameter</em> and <em>argument</em> can be used for the same thing:
+information that are passed into a function.</p>
+<p>From a function's perspective:</p>
+<ul>
+<li>A parameter is the variable listed inside the parentheses in the
+    function definition.</li>
+<li>An argument is the value that are sent to the function when it is
+    called.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-python">def add(x, y):
+    return x + y
+
+add(4, 8)
+</code></pre>
+<p>In this example, we define a function <code>add</code> which has 2 <strong>parameters</strong>:
+<code>x</code> and <code>y</code>. We call this function with the <strong>arguments</strong> 4 and 8.</p>
+<h2 id="some-examples">Some examples</h2>
+<p>Here are some examples of functions for which we want to deprecate one
+(or more) parameter(s).</p>
+<h3 id="example-1">Example 1</h3>
+<p>We have, for example, the case where a function has an optional
+parameter that is not used. The useless parameter is a positional (or
+keyword) parameter.</p>
+<pre><code class="language-python">def pow2(x, y, z=None):
+    return x ** y
+</code></pre>
+<p>Python 3.8 and above support positional-only parameters. So, this
+function can be rewritten as follows:</p>
+<pre><code class="language-python">def pow2(x, y, z=None, /):
+    return x ** y
+</code></pre>
+<p>➢ Classic usage:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; pow2(2, 3)
+8
+&gt;&gt;&gt; pow2(2, 3, 3.14)
+8
+&gt;&gt;&gt; pow2(2, 3, z=3.14)
+8
+</code></pre>
+<h3 id="example-2">Example 2</h3>
+<p>A function can have keyword-only parameters.</p>
+<p>The example below is a comparison function that takes two parameters and
+a keyword-only parameter. In this example, we will consider that the use
+of the <em>key</em> parameter should be deprecated say for security reasons.</p>
+<pre><code class="language-python">def compare(a, b, *, key=None):
+    if key is None:
+        return a &lt; b
+    return key(a) &lt; key(b)
+</code></pre>
+<p>➢ Classic usage:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; compare(&quot;a&quot;, &quot;B&quot;)
+False
+&gt;&gt;&gt; compare(&quot;a&quot;, &quot;B&quot;, key=str.upper)
+True
+&gt;&gt;&gt; compare([2, 1], [1, 2], key=lambda i: i.pop())
+True
+</code></pre>
+<h3 id="example-3">Example 3</h3>
+<p>A function can contain variable positional and keywords parameters.
+In this case, it will be possible to deprecate the
+keyword parameters but not the positional parameters.</p>
+<p>This example shows how to implement a function that accepts two
+positional parameters or two keyword parameters (<code>x, y</code> or
+<code>width, height</code>). A warning message should be emitted if <code>x</code> and <code>y</code> are
+used instead of <code>width</code> and <code>height</code>.</p>
+<pre><code class="language-python">def area(*args, **kwargs):
+
+    def _area_impl(width, height):
+        return width * height
+
+    if args:
+        # positional arguments (no checking)
+        return _area_impl(*args)
+    elif set(kwargs) == {&quot;width&quot;, &quot;height&quot;}:
+        # nominal case: no warning
+        return _area_impl(kwargs[&quot;width&quot;], kwargs[&quot;height&quot;])
+    elif set(kwargs) == {&quot;x&quot;, &quot;y&quot;}:
+        # old case: deprecation warning
+        return _area_impl(kwargs[&quot;x&quot;], kwargs[&quot;y&quot;])
+    else:
+        raise TypeError(&quot;invalid arguments&quot;)
+</code></pre>
+<p>➢ Classic usage:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; area(4, 6)
+24
+&gt;&gt;&gt; area(width=3, height=6)
+18
+&gt;&gt;&gt; area(x=2, y=7)
+14
+</code></pre>
+<h2 id="the-deprecated-parameters-decorator">The "deprecated parameters" decorator</h2>
+<p>We will assume that we have a decorator named <code>@deprecated_params</code> that
+allows us to deprecate function parameters. This decorator must allow to
+list the deprecated parameters and to define warning messages which will
+be emitted when the said parameters are used.</p>
+<p>Classic usage with a default warning message:</p>
+<pre><code class="language-python">@deprecated_params(&quot;z&quot;)
+def pow2(x, y, z=None):
+    return x ** y
+</code></pre>
+<p>Another usage where we use a dictionary which keys are the parameter
+names and the values are the warning messages:</p>
+<pre><code class="language-python">@deprecated_params({&quot;key&quot;: &quot;Parameter 'key' should be avoided for security reasons&quot;})
+def compare(a, b, *, key=None):
+    ...
+</code></pre>
+<p>The usage of a dictionary allows to indicate that several parameters are
+deprecated:</p>
+<pre><code class="language-python">@deprecated_params(
+    {
+        &quot;x&quot;: &quot;use `width` instead or `x`&quot;,
+        &quot;y&quot;: &quot;use `height` instead or `y`&quot;,
+    }
+)
+def area(*args, **kwargs):
+    ...
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong></p>
+<p>Of course, a more elaborate version will have to provide the API
+version number from which the parameters are deprecated. It will also
+be necessary to be able to redefine the warning class that is used
+similarly to the <code>@deprecated</code> decorator.</p>
+</blockquote>
+<h2 id="binding-positional-and-keyword-parameters">Binding positional and keyword parameters</h2>
+<p>The <code>inspect</code> module contains a function to read the signature of a
+function (or method). The signature is an object that can be linked to
+the arguments passed to the function.</p>
+<p><strong>Case 1.</strong> Suppose we want to inspect the signature of the function <code>pow2</code>. Depending on how we call the function, we
+will see if the <code>z</code> parameter is used or not. Here is an example:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; sig = inspect.signature(pow2)
+&gt;&gt;&gt; sig.bind(2, 3)
+&lt;BoundArguments (x=2, y=3)&gt;
+&gt;&gt;&gt; sig.bind(2, 3, 4)
+&lt;BoundArguments (x=2, y=3, z=4)&gt;
+</code></pre>
+<p>In the last call, <code>z</code> appears in the bound arguments.</p>
+<p><strong>Case 2.</strong>  The <code>compare</code> function has a different signature, but the binding between parameters and arguments works
+the same. The <code>bind</code> method creates a mapping from positional and keyword arguments to parameters. It raises
+a <code>TypeError</code> if the passed arguments do not match the signature.</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; sig = inspect.signature(compare)
+&gt;&gt;&gt; sig.bind(&quot;a&quot;, &quot;B&quot;)
+&lt;BoundArguments (a='a', b='B')&gt;
+&gt;&gt;&gt; sig.bind(&quot;a&quot;, &quot;B&quot;, key=str.upper)
+&lt;BoundArguments (a='a', b='B', key=&lt;method 'upper' of 'str' objects&gt;)&gt;
+&gt;&gt;&gt; sig.bind(&quot;a&quot;, &quot;B&quot;, str.upper)
+Traceback (most recent call last):
+...
+TypeError: too many positional arguments
+</code></pre>
+<p><strong>Case 3.</strong>  In the third case with the <code>area</code> function, the binding is done with the positional and/or keyword
+parameters.</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; sig = inspect.signature(area)
+&gt;&gt;&gt; sig.bind(4, 6)
+&lt;BoundArguments (args=(4, 6))&gt;
+&gt;&gt;&gt; sig.bind(x=4, y=6)
+&lt;BoundArguments (kwargs={'x': 4, 'y': 6})&gt;
+&gt;&gt;&gt; sig.bind(width=4, height=6)
+&lt;BoundArguments (kwargs={'width': 4, 'height': 6})&gt;
+</code></pre>
+<h2 id="a-simple-decorator-factory">A simple decorator factory</h2>
+<h3 id="description">Description</h3>
+<p>The decorator we have to design has necessarily initialization
+parameters: we have to indicate which parameters are deprecated and also
+provide warning messages. We call this kind of decorator a decorator
+factory: this is a function (or a callable class) which define a
+decorator.</p>
+<p>To implement this decorator, an initialisation phase, a setup phase and
+a control phase must be defined.</p>
+<ul>
+<li>The initialisation phase is used to check the decorator's arguments
+    and to build warning messages in advance.</li>
+<li>The setup phase allows to extract the signature of the function in
+    one go.</li>
+<li>The control phase allows the binding between the function parameters
+    and the arguments. We can then control the parameters from this
+    binding and emit warning messages when we find deprecated
+    parameters.</li>
+</ul>
+<p>Here is a first version of such a decorator:</p>
+<pre><code class="language-python">import collections
+import functools
+import inspect
+import warnings
+
+
+class DeprecatedParams(object):
+    &quot;&quot;&quot;
+    Decorator used to decorate a function which at least one
+    of the parameters is deprecated.
+    &quot;&quot;&quot;
+
+    def __init__(self, param, reason=&quot;&quot;, category=DeprecationWarning):
+        self.messages = {}  # type: dict[str, str]
+        self.category = category
+        self.populate_messages(param, reason=reason)
+
+    def populate_messages(self, param, reason=&quot;&quot;):
+        if isinstance(param, dict):
+            self.messages.update(param)
+        elif isinstance(param, str):
+            fmt = &quot;'{param}' parameter is deprecated&quot;
+            reason = reason or fmt.format(param=param)
+            self.messages[param] = reason
+        else:
+            raise TypeError(param)
+
+    def check_params(self, signature, *args, **kwargs):
+        binding = signature.bind(*args, **kwargs)
+        binded = collections.OrderedDict(binding.arguments, **binding.kwargs)
+        return [param for param in binded if param in self.messages]
+
+    def warn_messages(self, messages):
+        # type: (list[str]) -&gt; None
+        for message in messages:
+            warnings.warn(message, category=self.category, stacklevel=3)
+
+    def __call__(self, f):
+        # type: (callable) -&gt; callable
+        signature = inspect.signature(f)
+
+        @functools.wraps(f)
+        def wrapper(*args, **kwargs):
+            invalid_params = self.check_params(signature, *args, **kwargs)
+            self.warn_messages([self.messages[param] for param in invalid_params])
+            return f(*args, **kwargs)
+
+        return wrapper
+
+deprecated_params = DeprecatedParams
+</code></pre>
+<h3 id="example-1_1">Example 1</h3>
+<pre><code class="language-python">@deprecated_params(&quot;z&quot;)
+def pow2(x, y, z=None):
+    return x ** y
+</code></pre>
+<p>Using a Python 3.8 console, when we call the function <code>pow2</code> in different ways, we have:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; pow2(2, 3)
+8
+
+&gt;&gt;&gt; pow2(2, 3, 3.14)
+&lt;input&gt;:1: DeprecationWarning: 'z' parameter is deprecated
+8
+
+&gt;&gt;&gt; pow2(2, 3, z=3.14)
+Traceback (most recent call last):
+  ...
+TypeError: 'z' parameter is positional only, but was passed as a keyword
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong></p>
+<p>Of course, if we use an older version of Python, we get a depreciation
+warning instead of a <code>TypeError</code>.</p>
+</blockquote>
+<h3 id="example-2_1">Example 2</h3>
+<p>Here is another example with the <code>compare</code> function:</p>
+<pre><code class="language-python">@deprecated_params({&quot;key&quot;: &quot;Parameter 'key' should be avoided for security reasons&quot;})
+def compare(a, b, *, key=None):
+    if key is None:
+        return a &lt; b
+    return key(a) &lt; key(b)
+</code></pre>
+<p>When we call the function <code>compare</code>, we have:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import warnings
+&gt;&gt;&gt; warnings.simplefilter(&quot;always&quot;)
+
+&gt;&gt;&gt; compare(&quot;a&quot;, &quot;B&quot;)
+False
+
+&gt;&gt;&gt; compare(&quot;a&quot;, &quot;B&quot;, key=str.upper)
+&lt;input&gt;:1: DeprecationWarning: Parameter 'key' should be avoided for security reasons
+True
+
+&gt;&gt;&gt; compare([2, 1], [1, 2], key=lambda i: i.pop())
+&lt;input&gt;:1: DeprecationWarning: Parameter 'key' should be avoided for security reasons
+True
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong></p>
+<p>By default, the warning messages are displayed only once, on the first call corresponding
+to each location (module + line number) where the warning is issued.
+In this example, we use <code>warnings.simplefilter("always")</code> to emit a warning message on every call.
+Without this configuration, we would have had only one warning message.</p>
+<p>See also <a href="https://docs.python.org/3/library/warnings.html#the-warnings-filter">The Warnings Filter</a>
+in the Python documentation.</p>
+</blockquote>
+<h3 id="example-3_1">Example 3</h3>
+<p>Again, we can use the decorator with the <code>area</code> function:</p>
+<pre><code class="language-python">@deprecated_params(
+    {
+        &quot;x&quot;: &quot;use `width` instead or `x`&quot;,
+        &quot;y&quot;: &quot;use `height` instead or `y`&quot;,
+    },
+)
+def area(*args, **kwargs):
+    def _area_impl(width, height):
+        return width * height
+
+    if args:
+        # positional arguments (no checking)
+        return _area_impl(*args)
+    elif set(kwargs) == {&quot;width&quot;, &quot;height&quot;}:
+        # nominal case: no warning
+        return _area_impl(kwargs[&quot;width&quot;], kwargs[&quot;height&quot;])
+    elif set(kwargs) == {&quot;x&quot;, &quot;y&quot;}:
+        # old case: deprecation warning
+        return _area_impl(kwargs[&quot;x&quot;], kwargs[&quot;y&quot;])
+    else:
+        raise TypeError(&quot;invalid arguments&quot;)
+</code></pre>
+<p>When we call the function <code>area</code>, we have:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import warnings
+&gt;&gt;&gt; warnings.simplefilter(&quot;always&quot;)
+
+&gt;&gt;&gt; area(4, 6)
+24
+
+&gt;&gt;&gt; area(width=3, height=6)
+18
+
+&gt;&gt;&gt; area(x=2, y=7)
+&lt;input&gt;:1: DeprecationWarning: use `width` instead or `x`
+&lt;input&gt;:1: DeprecationWarning: use `height` instead or `y`
+14
+
+&gt;&gt;&gt; area(x=2, height=7)
+&lt;input&gt;:1: DeprecationWarning: use `width` instead or `x`
+Traceback (most recent call last):
+  ...
+TypeError: invalid arguments
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong></p>
+<p>In the last call, the deprecation warning is printed and then a<code>TypeError</code> is raised:
+this is an implementation choice to raise an exception when the arguments are invalid.
+This way, the user of the function has enough information to deal with the issue.</p>
+</blockquote>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../requirements/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Requirements" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Requirements
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../../about/" class="md-footer__link md-footer__link--next" aria-label="Next: About" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              About
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+    
+  </body>
+</html>

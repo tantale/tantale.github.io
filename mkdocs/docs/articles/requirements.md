@@ -1,7 +1,7 @@
 ---
 
-- title: Deprecate a function parameter - Requirements
-- summary: How to deprecate function parameters
+- title: Deprecate a function parameter – Requirements
+- summary: What are the requirements to implement a parameter deprecation decorator?
 - author: Laurent LAPORTE
 - date: 2019-03-01
 

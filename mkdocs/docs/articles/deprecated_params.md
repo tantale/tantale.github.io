@@ -1,7 +1,7 @@
 ---
 
-- title: Deprecate a function parameter - The Deprecated Parameters Decorator
-- summary: How to deprecate function parameters using a decorator factory
+- title: Deprecate a function parameter – The Deprecated Parameters Decorator
+- summary: How to deprecate function parameters using a decorator factory?
 - author: Laurent LAPORTE
 - date: 2021-11-03
 

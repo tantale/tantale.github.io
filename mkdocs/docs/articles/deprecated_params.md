@@ -1,13 +1,14 @@
 ---
-title: Deprecated Parameters
-summary: How to deprecate function parameters
-authors:
-    - Laurent LAPORTE
-date: 2021-11-03
+
+- title: Deprecate a function parameter - The Deprecated Parameters Decorator
+- summary: How to deprecate function parameters using a decorator factory
+- author: Laurent LAPORTE
+- date: 2021-11-03
+
 ---
 
-Deprecated Parameters
-=====================
+Deprecated Parameters Decorator
+===============================
 
 Abstract
 --------
@@ -255,6 +256,8 @@ parameters.
 A simple decorator factory
 --------------------------
 
+### Description
+
 The decorator we have to design has necessarily initialization
 parameters: we have to indicate which parameters are deprecated and also
 provide warning messages. We call this kind of decorator a decorator
@@ -328,7 +331,7 @@ class DeprecatedParams(object):
 deprecated_params = DeprecatedParams
 ```
 
-Usage examples:
+### Example 1
 
 ```python
 @deprecated_params("z")
@@ -356,6 +359,8 @@ TypeError: 'z' parameter is positional only, but was passed as a keyword
 >
 > Of course, if we use an older version of Python, we get a depreciation
 > warning instead of a `TypeError`.
+
+### Example 2
 
 Here is another example with the `compare` function:
 
@@ -394,6 +399,8 @@ True
 > 
 > See also [The Warnings Filter](https://docs.python.org/3/library/warnings.html#the-warnings-filter)
 > in the Python documentation.
+
+### Example 3
 
 Again, we can use the decorator with the `area` function:
 

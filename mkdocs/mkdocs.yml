@@ -1,7 +1,8 @@
 site_name: Tantale’s Blog
 site_url: https://tantale.github.io/
 nav:
-  - Articles:
-      - Deprecated Parameters: articles/deprecated_params.md
+  - Function parameters deprecation:
+      - Requirements: articles/requirements.md
+      - Deprecated Parameters Decorator: articles/deprecated_params.md
   - About: about.md
 theme: mkdocs

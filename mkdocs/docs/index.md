@@ -4,7 +4,10 @@
 
 The following articles are related to the [Deprecated library](https://github.com/tantale/deprecated) project.
 
-- [Deprecated Parameters](articles/deprecated_params.md)
+**Function parameters deprecation**
+
+- [Requirements](articles/requirements.md)
+- [Deprecated Parameters Decorator](articles/deprecated_params.md)
 
 ## Other articles
 

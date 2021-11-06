@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://tantale.github.io/articles/requirements/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Requirements - Tantale’s Blog</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tantale’s Blog</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Function parameters deprecation <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Requirements</a>
+</li>
+                                    
+<li>
+    <a href="../deprecated_params/" class="dropdown-item">Deprecated Parameters Decorator</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../deprecated_params/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#requirements" class="nav-link">Requirements</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#abstract" class="nav-link">Abstract</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#advantages-and-disadvantages-of-the-decorator" class="nav-link">Advantages and disadvantages of the decorator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#generalization" class="nav-link">Generalization</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#examples-of-deprecations" class="nav-link">Examples of deprecations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#implementation-guide" class="nav-link">Implementation Guide</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<hr />
+<ul>
+<li>title: Deprecate a function parameter - Requirements</li>
+<li>summary: How to deprecate function parameters</li>
+<li>author: Laurent LAPORTE</li>
+<li>date: 2019-03-01</li>
+</ul>
+<hr />
+<h1 id="requirements">Requirements</h1>
+<h2 id="abstract">Abstract</h2>
+<p>When a program evolves, we sometimes have to change a function signature.
+But this leads to a version incompatibility which is not sustainable by the user.</p>
+<p>Instead of doing this, it is often easier to slightly change the function parameters,
+for instance by adding keyword parameters (or by using <code>*args</code>/<code>**kwargs</code>).
+Then it is better to emit a warning when the user uses an obsolete parameter.</p>
+<p>There are of course other use cases where we want to deprecate a parameter, for instance when a parameter is renamed:
+we keep the old parameter and add a new one, both parameters becoming optional. Then we need to add a code snippet
+to check the parameters to make sure that at least one of them is used. Then we emit a warning message when the old
+parameter is used.</p>
+<p>The purpose of this article is to define the requirements to implement a decorator. To do so, we will give the
+advantages and disadvantages of a decorator. Then we will try to generalize the requirements to find out if other use
+cases could not also be taken into account. We will continue by looking for examples of deprecated parameters in open
+source libraries. Finally, we will discuss the implementation of such a decorator, taking inspiration from what is
+already done in the Deprecated library.</p>
+<p>To illustrate our point, here is an example of a function to create a styled paragraph in HTML. Here, the <em>color</em>
+and <em>background_color</em> parameters are replaced by a more generic <em>style</em> parameter. Both parameters are now deprecated.</p>
+<pre><code class="language-python">import xml.sax.saxutils
+
+
+@deprecated_params(
+    params='color background_color',
+    version=&quot;0.2.3&quot;,
+    reason=&quot;you may consider using *styles* instead.&quot;,
+)
+def paragraph(text, color=None, background_color=None, styles=None):
+    &quot;&quot;&quot;Create a styled HTML paragraphe.&quot;&quot;&quot;
+    styles = styles or {}
+    if color:
+        styles['color'] = color
+    if background_color:
+        styles['background-color'] = background_color
+    html_styles = &quot; &quot;.join(&quot;{k}: {v};&quot;.format(k=k, v=v) for k, v in styles.items())
+    html_text = xml.sax.saxutils.escape(text)
+    return ('&lt;p styles=&quot;{html_styles}&quot;&gt;{html_text}&lt;/p&gt;'
+            .format(html_styles=html_styles, html_text=html_text))
+</code></pre>
+<p>In this example, we used a decorator named <code>@deprecated_params</code> to define the deprecated parameters.
+Such a decorator could be implemented as follows:</p>
+<pre><code class="language-python">import functools
+
+
+def deprecated_params(params, version=&quot;&quot;, reason=&quot;&quot;):
+    def decorate(func):
+        @functools.wraps(func)
+        def call(*args, **kwargs):
+            # todo: check deprecated parameters here...
+            return func(*args, **kwargs)
+
+        return call
+
+    return decorate
+</code></pre>
+<h2 id="advantages-and-disadvantages-of-the-decorator">Advantages and disadvantages of the decorator</h2>
+<p>Using a decorator to deprecate the use of a function parameter is interesting and offers some advantages:</p>
+<ul>
+<li>The decorator allows you to isolate the code that checks the use of this parameter from the rest of the function
+  processing: Separation of Concerns design pattern.</li>
+<li>The decorator allows explicit documentation of the code, so the use of comments is unnecessary: “Readability matters”.</li>
+<li>The decorator could be used to enhance the code documentation (the docstring of the decorated function).</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>The implementation of such a decorator is necessarily more complex than a specific solution.</li>
+<li>The resulting function (after decoration) is necessarily slower than the decorated function because of the
+  introspection and parameters usage check.</li>
+</ul>
+<p>Another important consideration:</p>
+<ul>
+<li>The resulting function (after decoration) must be of the same nature as the decorated function: function, method,
+  static method, etc.</li>
+</ul>
+<h2 id="generalization">Generalization</h2>
+<p>In addition to the case of deprecating a parameter usage, a warning could also be issued in the following cases:</p>
+<ul>
+<li>A parameter has been renamed: the new name is more meaningful, more explicit, etc.</li>
+<li>One parameter is replaced by another of more general use.</li>
+<li>The parameter type changes, it is better to use another one.</li>
+<li>A parameter is considered obsolete, it will be deleted in a future version.</li>
+<li>A new parameter has been added, its use is strongly recommended.</li>
+<li>Etc.</li>
+</ul>
+<p>The use cases mentioned above fall into 3 categories:</p>
+<ol>
+<li>Deleted parameter,</li>
+<li>Added parameter,</li>
+<li>Modified parameter (default value, modified type or use).</li>
+</ol>
+<p>The third case (modified parameter) is the most difficult to specify in general terms.</p>
+<h2 id="examples-of-deprecations">Examples of deprecations</h2>
+<p>(This section is incomplete)</p>
+<p>Before starting a complex implementation, it would be necessary to study how it is done, on one hand in
+the <a href="https://docs.python.org/3/library/index.html">Standard Library</a>, and on the other hand in
+the <a href="https://hugovk.github.io/top-pypi-packages/">popular libraries</a> of the Open Source world such as: pip, urllib3,
+boto3, six, requests, setuptools, futures, Flask, Django… At least two questions must be considered regarding
+deprecation:</p>
+<ul>
+<li>How is it implemented in the source code?</li>
+<li>How is it documented?</li>
+</ul>
+<h2 id="implementation-guide">Implementation Guide</h2>
+<p>(This section is incomplete)</p>
+<p>A parameter deprecation decorator implementation must be flexible. It is necessary to be as flexible as possible and to
+use what exists for <code>@deprecated.basic.deprecated</code> and <code>@deprecated.sphinx.deprecated</code>. It is necessary to define test
+cases that correspond to the most common scenarios. It is also likely that some atypical situations are clearly not
+implemented. For now, we would like to continue supporting Python 2.7, as it is still used by some users.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

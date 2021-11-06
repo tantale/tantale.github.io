@@ -296,6 +296,7 @@ parameters.</p>
 &lt;BoundArguments (kwargs={'width': 4, 'height': 6})&gt;
 </code></pre>
 <h2 id="a-simple-decorator-factory">A simple decorator factory</h2>
+<h3 id="description">Description</h3>
 <p>The decorator we have to design has necessarily initialization
 parameters: we have to indicate which parameters are deprecated and also
 provide warning messages. We call this kind of decorator a decorator
@@ -365,7 +366,7 @@ class DeprecatedParams(object):
 
 deprecated_params = DeprecatedParams
 </code></pre>
-<p>Usage examples:</p>
+<h3 id="example-1_1">Example 1</h3>
 <pre><code class="language-python">@deprecated_params(&quot;z&quot;)
 def pow2(x, y, z=None):
     return x ** y
@@ -388,6 +389,7 @@ TypeError: 'z' parameter is positional only, but was passed as a keyword
 <p>Of course, if we use an older version of Python, we get a depreciation
 warning instead of a <code>TypeError</code>.</p>
 </blockquote>
+<h3 id="example-2_1">Example 2</h3>
 <p>Here is another example with the <code>compare</code> function:</p>
 <pre><code class="language-python">@deprecated_params({&quot;key&quot;: &quot;Parameter 'key' should be avoided for security reasons&quot;})
 def compare(a, b, *, key=None):
@@ -419,6 +421,7 @@ Without this configuration, we would have had only one warning message.</p>
 <p>See also <a href="https://docs.python.org/3/library/warnings.html#the-warnings-filter">The Warnings Filter</a>
 in the Python documentation.</p>
 </blockquote>
+<h3 id="example-3_1">Example 3</h3>
 <p>Again, we can use the decorator with the <code>area</code> function:</p>
 <pre><code class="language-python">@deprecated_params(
     {

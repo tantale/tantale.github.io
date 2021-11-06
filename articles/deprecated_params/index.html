@@ -245,15 +245,15 @@ def compare(a, b, *, key=None):
 deprecated:</p>
 <pre><code class="language-python">@deprecated_params(
     {
-        &quot;x&quot;: &quot;Use 'width' instead&quot;,
-        &quot;y&quot;: &quot;Use 'height' instead&quot;,
+        &quot;x&quot;: &quot;use `width` instead or `x`&quot;,
+        &quot;y&quot;: &quot;use `height` instead or `y`&quot;,
     }
 )
 def area(*args, **kwargs):
     ...
 </code></pre>
 <blockquote>
-<p><strong>note</strong></p>
+<p><strong>Note:</strong></p>
 <p>Of course, a more elaborate version will have to provide the API
 version number from which the parameters are deprecated. It will also
 be necessary to be able to redefine the warning class that is used
@@ -365,32 +365,29 @@ class DeprecatedParams(object):
 
 deprecated_params = DeprecatedParams
 </code></pre>
-<blockquote>
-<p><strong>warning</strong></p>
-<p>In the examples below, we have changed the warnings configuration to
-raise an exception when a deprecation message is emitted. This makes
-it easier to see the messages when this code is tested with <code>doctest</code>.
-Usually, warning messages appear on the console in <code>stderr</code>.</p>
-</blockquote>
 <p>Usage examples:</p>
 <pre><code class="language-python">@deprecated_params(&quot;z&quot;)
 def pow2(x, y, z=None):
     return x ** y
 </code></pre>
-<p>When we call the function <code>pow2</code> in different ways, we have:</p>
+<p>Using a Python 3.8 console, when we call the function <code>pow2</code> in different ways, we have:</p>
 <pre><code class="language-python-repl">&gt;&gt;&gt; pow2(2, 3)
 8
 
 &gt;&gt;&gt; pow2(2, 3, 3.14)
-Traceback (most recent call last):
-  ...
-DeprecationWarning: 'z' parameter is deprecated
+&lt;input&gt;:1: DeprecationWarning: 'z' parameter is deprecated
+8
 
 &gt;&gt;&gt; pow2(2, 3, z=3.14)
 Traceback (most recent call last):
   ...
-DeprecationWarning: 'z' parameter is deprecated
+TypeError: 'z' parameter is positional only, but was passed as a keyword
 </code></pre>
+<blockquote>
+<p><strong>Note:</strong></p>
+<p>Of course, if we use an older version of Python, we get a depreciation
+warning instead of a <code>TypeError</code>.</p>
+</blockquote>
 <p>Here is another example with the <code>compare</code> function:</p>
 <pre><code class="language-python">@deprecated_params({&quot;key&quot;: &quot;Parameter 'key' should be avoided for security reasons&quot;})
 def compare(a, b, *, key=None):
@@ -399,28 +396,37 @@ def compare(a, b, *, key=None):
     return key(a) &lt; key(b)
 </code></pre>
 <p>When we call the function <code>compare</code>, we have:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; compare(&quot;a&quot;, &quot;B&quot;)
+<pre><code class="language-python-repl">&gt;&gt;&gt; import warnings
+&gt;&gt;&gt; warnings.simplefilter(&quot;always&quot;)
+
+&gt;&gt;&gt; compare(&quot;a&quot;, &quot;B&quot;)
 False
 
 &gt;&gt;&gt; compare(&quot;a&quot;, &quot;B&quot;, key=str.upper)
-Traceback (most recent call last):
-  ...
-DeprecationWarning: Parameter 'key' should be avoided for security reasons
+&lt;input&gt;:1: DeprecationWarning: Parameter 'key' should be avoided for security reasons
+True
 
 &gt;&gt;&gt; compare([2, 1], [1, 2], key=lambda i: i.pop())
-Traceback (most recent call last):
-  ...
-DeprecationWarning: Parameter 'key' should be avoided for security reasons
+&lt;input&gt;:1: DeprecationWarning: Parameter 'key' should be avoided for security reasons
+True
 </code></pre>
+<blockquote>
+<p><strong>Note:</strong></p>
+<p>By default, the warning messages are displayed only once, on the first call corresponding
+to each location (module + line number) where the warning is issued.
+In this example, we use <code>warnings.simplefilter("always")</code> to emit a warning message on every call.
+Without this configuration, we would have had only one warning message.</p>
+<p>See also <a href="https://docs.python.org/3/library/warnings.html#the-warnings-filter">The Warnings Filter</a>
+in the Python documentation.</p>
+</blockquote>
 <p>Again, we can use the decorator with the <code>area</code> function:</p>
 <pre><code class="language-python">@deprecated_params(
     {
-        &quot;x&quot;: &quot;Use 'width' instead&quot;,
-        &quot;y&quot;: &quot;Use 'height' instead&quot;,
-    }
+        &quot;x&quot;: &quot;use `width` instead or `x`&quot;,
+        &quot;y&quot;: &quot;use `height` instead or `y`&quot;,
+    },
 )
 def area(*args, **kwargs):
-
     def _area_impl(width, height):
         return width * height
 
@@ -437,17 +443,32 @@ def area(*args, **kwargs):
         raise TypeError(&quot;invalid arguments&quot;)
 </code></pre>
 <p>When we call the function <code>area</code>, we have:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; area(4, 6)
+<pre><code class="language-python-repl">&gt;&gt;&gt; import warnings
+&gt;&gt;&gt; warnings.simplefilter(&quot;always&quot;)
+
+&gt;&gt;&gt; area(4, 6)
 24
 
 &gt;&gt;&gt; area(width=3, height=6)
 18
 
 &gt;&gt;&gt; area(x=2, y=7)
+&lt;input&gt;:1: DeprecationWarning: use `width` instead or `x`
+&lt;input&gt;:1: DeprecationWarning: use `height` instead or `y`
+14
+
+&gt;&gt;&gt; area(x=2, height=7)
+&lt;input&gt;:1: DeprecationWarning: use `width` instead or `x`
 Traceback (most recent call last):
   ...
-DeprecationWarning: Use 'width' instead
-</code></pre></div>
+TypeError: invalid arguments
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong></p>
+<p>In the last call, the deprecation warning is printed and then a<code>TypeError</code> is raised:
+this is an implementation choice to raise an exception when the arguments are invalid.
+This way, the user of the function has enough information to deal with the issue.</p>
+</blockquote></div>
             </div>
         </div>
 

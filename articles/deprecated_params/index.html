@@ -317,36 +317,37 @@ a control phase must be defined.</p>
 <pre><code class="language-python">import collections
 import functools
 import inspect
-import itertools
 import warnings
 
 
-class DeprecatedParamsV1(object):
-    def __init__(self, param, reason=&quot;&quot;, category=DeprecationWarning):
-        self.messages = collections.OrderedDict()
-        self.category = category
-        self.build_messages(param, reason=reason)
+class DeprecatedParams(object):
+    &quot;&quot;&quot;
+    Decorator used to decorate a function which at least one
+    of the parameters is deprecated.
+    &quot;&quot;&quot;
 
-    def build_messages(self, param, reason=&quot;&quot;):
+    def __init__(self, param, reason=&quot;&quot;, category=DeprecationWarning):
+        self.messages = {}  # type: dict[str, str]
+        self.category = category
+        self.populate_messages(param, reason=reason)
+
+    def populate_messages(self, param, reason=&quot;&quot;):
         if isinstance(param, dict):
             self.messages.update(param)
         elif isinstance(param, str):
-            reason = reason or &quot;'{param}' parameter is deprecated&quot;.format(param=param)
+            fmt = &quot;'{param}' parameter is deprecated&quot;
+            reason = reason or fmt.format(param=param)
             self.messages[param] = reason
         else:
             raise TypeError(param)
 
     def check_params(self, signature, *args, **kwargs):
-        # fmt: off
         binding = signature.bind(*args, **kwargs)
-        return [
-            param
-            for param in itertools.chain(binding.arguments, binding.kwargs)
-            if param in self.messages
-        ]
-        # fmt: on
+        binded = collections.OrderedDict(binding.arguments, **binding.kwargs)
+        return [param for param in binded if param in self.messages]
 
     def warn_messages(self, messages):
+        # type: (list[str]) -&gt; None
         for message in messages:
             warnings.warn(message, category=self.category, stacklevel=3)
 
@@ -361,6 +362,8 @@ class DeprecatedParamsV1(object):
             return f(*args, **kwargs)
 
         return wrapper
+
+deprecated_params = DeprecatedParams
 </code></pre>
 <blockquote>
 <p><strong>warning</strong></p>
@@ -370,7 +373,7 @@ it easier to see the messages when this code is tested with <code>doctest</code>
 Usually, warning messages appear on the console in <code>stderr</code>.</p>
 </blockquote>
 <p>Usage examples:</p>
-<pre><code class="language-python">@DeprecatedParamsV1(&quot;z&quot;)
+<pre><code class="language-python">@deprecated_params(&quot;z&quot;)
 def pow2(x, y, z=None):
     return x ** y
 </code></pre>
@@ -389,7 +392,7 @@ Traceback (most recent call last):
 DeprecationWarning: 'z' parameter is deprecated
 </code></pre>
 <p>Here is another example with the <code>compare</code> function:</p>
-<pre><code class="language-python">@DeprecatedParamsV1({&quot;key&quot;: &quot;Parameter 'key' should be avoided for security reasons&quot;})
+<pre><code class="language-python">@deprecated_params({&quot;key&quot;: &quot;Parameter 'key' should be avoided for security reasons&quot;})
 def compare(a, b, *, key=None):
     if key is None:
         return a &lt; b
@@ -410,7 +413,7 @@ Traceback (most recent call last):
 DeprecationWarning: Parameter 'key' should be avoided for security reasons
 </code></pre>
 <p>Again, we can use the decorator with the <code>area</code> function:</p>
-<pre><code class="language-python">@DeprecatedParamsV1(
+<pre><code class="language-python">@deprecated_params(
     {
         &quot;x&quot;: &quot;Use 'width' instead&quot;,
         &quot;y&quot;: &quot;Use 'height' instead&quot;,
